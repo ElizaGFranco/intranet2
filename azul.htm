@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<script type="text/javascript">
+
+/***********************************************
+
+* JavaScript Image Clock- by JavaScript Kit (www.javascriptkit.com)
+* This notice must stay intact for usage
+* Visit JavaScript Kit at http://www.javascriptkit.com/ for this script and 100s more
+
+***********************************************/
+
+var imageclock=new Object()
+	//Enter path to clock digit images here, in order of 0-9, then "am/pm", then colon image:
+	imageclock.digits=["c0.gif", "c1.gif", "c2.gif", "c3.gif", "c4.gif", "c5.gif", "c6.gif", "c7.gif", "c8.gif", "c9.gif", "cam.gif", "cpm.gif", "colon.gif"]
+	imageclock.instances=0
+	var preloadimages=[]
+	for (var i=0; i<imageclock.digits.length; i++){ //preload images
+		preloadimages[i]=new Image()
+		preloadimages[i].src=imageclock.digits[i]
+	}
+
+	imageclock.imageHTML=function(timestring){ //return timestring (ie: 1:56:38) into string of images instead
+		var sections=timestring.split(":")
+		if (sections[0]=="0") //If hour field is 0 (aka 12 AM)
+			sections[0]="12"
+		else if (sections[0]>=13)
+			sections[0]=sections[0]-12+""
+		for (var i=0; i<sections.length; i++){
+			if (sections[i].length==1)
+				sections[i]='<img src="'+imageclock.digits[0]+'" />'+'<img src="'+imageclock.digits[parseInt(sections[i])]+'" />'
+			else
+				sections[i]='<img src="'+imageclock.digits[parseInt(sections[i].charAt(0))]+'" />'+'<img src="'+imageclock.digits[parseInt(sections[i].charAt(1))]+'" />'
+		}
+		return sections[0]+'<img src="'+imageclock.digits[12]+'" />'+sections[1]+'<img src="'+imageclock.digits[12]+'" />'+sections[2]
+	}
+
+	imageclock.display=function(){
+		var clockinstance=this
+		this.spanid="clockspan"+(imageclock.instances++)
+		document.write('<span id="'+this.spanid+'"></span>')
+		this.update()
+		setInterval(function(){clockinstance.update()}, 1000)
+	}
+
+	imageclock.display.prototype.update=function(){
+		var dateobj=new Date()
+		var currenttime=dateobj.getHours()+":"+dateobj.getMinutes()+":"+dateobj.getSeconds() //create time string
+		var currenttimeHTML=imageclock.imageHTML(currenttime)+'<img src="'+((dateobj.getHours()>=12)? imageclock.digits[11] : imageclock.digits[10])+'" />'
+		document.getElementById(this.spanid).innerHTML=currenttimeHTML
+
+	}
+
+
+</script>
+<marquee>
+<div id="Layer1" style="position:absolute; left:318px; top:131px; width:461px; height:264px; z-index:1"><img src="5.gif" width="500" height="262"></div>
+<span style="font-weight: bold;font-size:220%;"><script>
+var text="BIENVENIDOS"
+var speed=85
+if (document.all||document.getElementById){
+document.write('<span id="highlight">' + text + '</span>')
+var storetext=document.getElementById? document.getElementById("highlight") : document.all.highlight
+}
+else
+document.write(text)
+var hex=new Array("00","14","28","3C","50","64","78","8C","A0","B4","C8","DC","F0")
+var r=1
+var g=1
+var b=1
+var seq=1
+function changetext(){
+rainbow="#"+hex[r]+hex[g]+hex[b]
+storetext.style.color=rainbow
+}
+function change(){
+if (seq==6){
+b--
+if (b==0)
+seq=1
+}
+if (seq==5){
+r++
+if (r==12)
+seq=6
+}
+if (seq==4){
+g--
+if (g==0)
+seq=5
+}
+if (seq==3){
+b++
+if (b==12)
+seq=4
+}
+if (seq==2){
+r--
+if (r==0)
+seq=3
+}
+if (seq==1){
+g++
+if (g==12)
+seq=2
+}
+changetext()
+}
+function starteffect(){
+if (document.all||document.getElementById)
+flash=setInterval("change()",speed)
+}
+starteffect()
+</script></span></marquee>
+<script type="text/javascript">
+
+new imageclock.display()
+
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style type="text/css">
+<!--
+body {
+	background-color: #000000;
+}
+-->
+</style>
+<script language="JavaScript" type="text/JavaScript">
+<!--
+function MM_reloadPage(init) {  //reloads the window if Nav4 resized
+  if (init==true) with (navigator) {if ((appName=="Netscape")&&(parseInt(appVersion)==4)) {
+    document.MM_pgW=innerWidth; document.MM_pgH=innerHeight; onresize=MM_reloadPage; }}
+  else if (innerWidth!=document.MM_pgW || innerHeight!=document.MM_pgH) location.reload();
+}
+MM_reloadPage(true);
+//-->
+</script>
+
+<div id="Layer1" style="position:absolute; left:479px; top:158px; width:480px; height:247px; z-index:1"><img src="5.gif" width="500" height="250"></div>
+</html>
